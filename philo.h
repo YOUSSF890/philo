@@ -21,7 +21,7 @@ typedef struct s_philo
 {
 	int		id;
 	int		nbr_to_eat;
-	// int			some_one_is_deid; // 1
+	int		some_one_is_deid; // 1
 	t_data	*data;
 	long	last_eat;
 
@@ -30,8 +30,13 @@ typedef struct s_philo
 	// struct s_philo	*next;
 }				t_philo;
 
-void	ft_sleep(int ms);
-void	ft_check_argement(char **input, t_data *data);
-int	ft_atoi(const char *str);
+long ft_tim_dil();
+void	ft_usleep(long duration);
+int		ft_atoi(const char *str); 
+int		ft_check_argement(char **input, t_data *data, int ac);
+void	work_fork(t_philo	*p, int left, int right);
+void	work_thinking(t_philo *p);
+void	work_sleep(t_philo *p);
+void	work_eat(t_philo *p);
 
 #endif

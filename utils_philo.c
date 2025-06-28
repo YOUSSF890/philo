@@ -6,16 +6,12 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:02:00 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/06/23 15:31:14 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/06/28 14:19:13 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_sleep(int ms)
-{
-	usleep(ms);
-}
 
 int	ft_atoi(const char *str)
 {
@@ -43,7 +39,7 @@ int	ft_atoi(const char *str)
 }
 
 
-void	stor_data_to_philo(int j, char *input, t_data *data)
+void stor_data_to_philo(int j, char *input, t_data *data)
 {
 	if (j == 1)
 		data->nbr_of_philo = ft_atoi(input);
@@ -55,25 +51,29 @@ void	stor_data_to_philo(int j, char *input, t_data *data)
 		data->time_to_sleep = ft_atoi(input);
 }
 
-void ft_check_argement(char **input, t_data *data)
+int ft_check_argement(char **input, t_data *data, int ac)
 {
     int i;
     int j;
 
     j = 1;
-    while (input[j])
-    {
-        i = 0;
-        while (input[j][i])
-        {
-            if (input[j][i] > 57 || input[j][i] < 48)
-            {
-                printf("eroor parsin\n");
-                exit(1);
-            }
-            i++;
-        }
-		stor_data_to_philo(j,  input[j], data);
-        j++;
-    }
+	if (ac >= 5 && ac <= 6)
+	{
+    	while (input[j])
+    	{
+    	    i = 0;
+    	    while (input[j][i])
+    	    {
+    	        if (input[j][i] > 57 || input[j][i] < 48)
+    	            return (printf("eroor parsin\n"), 1);
+    	        i++;
+    	    }
+			if(ft_atoi(input[j]) == 0)
+				return (printf("eroor argemint in 0\n"), 1);
+			stor_data_to_philo(j,  input[j], data);
+    	    j++;
+    	}
+		return (0);
+	}
+	return (printf("eroor parsin in argemint\n"), 1);
 }
