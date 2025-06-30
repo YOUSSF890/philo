@@ -12,6 +12,7 @@ typedef struct s_data {
 	int				time_to_diel;
 	int				time_to_eat;
 	int				time_to_sleep;
+	int		some_one_is_deid; // 1
 	pthread_mutex_t	print;
 	pthread_mutex_t	*forks;
 	pthread_t		*philosophers;
@@ -21,7 +22,6 @@ typedef struct s_philo
 {
 	int		id;
 	int		nbr_to_eat;
-	int		some_one_is_deid; // 1
 	t_data	*data;
 	long	last_eat;
 
@@ -30,13 +30,13 @@ typedef struct s_philo
 	// struct s_philo	*next;
 }				t_philo;
 
-long ft_tim_dil();
-void	ft_usleep(long duration);
+long	ft_tim_dil();
+int		ft_usleep(t_philo *p);
 int		ft_atoi(const char *str); 
 int		ft_check_argement(char **input, t_data *data, int ac);
-void	work_fork(t_philo	*p, int left, int right);
+int	work_fork(t_philo	*p, int left, int right);
 void	work_thinking(t_philo *p);
-void	work_sleep(t_philo *p);
-void	work_eat(t_philo *p);
+int		work_sleep(t_philo *p);
+int		work_eat(t_philo *p);
 
 #endif
