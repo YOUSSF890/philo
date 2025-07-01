@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:01:53 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/01 18:12:43 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/01 23:48:39 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,13 @@ int	ft_usleep(t_philo *p)
 {
 	long	start;
 
-	// if (p->data->some_one_is_deid != 0)
-	// {
-	// 	if(p->data->some_one_is_deid == 1)
-	// 	{
-	// 		p->data->some_one_is_deid = 2;
-	// 		printf("tim = %ld X = %d died\n", ft_tim_dil(), p->id);
-	// 	}
-	// 	return (1);
-	// }
 	start = ft_tim_dil();
 	while (ft_tim_dil() - start <= p->data->time_to_sleep)
 	{
+		// if (chick_deid(p))
+		// 	return (1);
 		usleep(100);
 	}
-	
 	return (0);
 }
 
@@ -57,24 +49,45 @@ long ft_tim_dil()
 	return (ms);
 }
 
+int chick_deid(t_philo *p)
+{
+	if (ft_tim_dil() - p->last_eat >= p->data->time_to_diel)
+	{
+		if (p->data->some_one_is_deid == 0)
+		{
+			p->data->some_one_is_deid = 1;
+		}
+		else
+		{
+			p->data->some_one_is_deid = 2;
+		}
+	}
+	if (p->data->some_one_is_deid != 0)
+	{
+		if (p->data->some_one_is_deid == 1)
+		{
+			
+			p->data->some_one_is_deid = 2;
+			printf("tim = %ld X = %d died\n",p->last_eat, p->id);
+		}
+		return (1);
+	}
+	return (0);
+}
+
 void	*philosopher(void *arg)
 {
 	t_philo	*p = (t_philo *)arg;
 	int left = p->id;
 	int right = (p->id + 1) % p->data->nbr_of_philo;
+	p->one_tim = ft_tim_dil();
 	if (p->id % 2 != 0)
 		usleep(500);
 	while (1)
 	{
-		// if (p->data->some_one_is_deid != 0)
-		// {
-		// 	if(p->data->some_one_is_deid == 1)
-		// 	{
-		// 		p->data->some_one_is_deid = 2;
-		// 		printf("tim = %ld X = %d died\n", ft_tim_dil(), p->id);
-		// 	}
+		// if (chick_deid(p))
 		// 	return (NULL);
-		// }
+		
 		if (p->nbr_to_eat == 0)
 			break ;
 		if (p->id % 2 == 0)
@@ -87,14 +100,14 @@ void	*philosopher(void *arg)
 			if(work_fork(p, left, right))
 				return (NULL);
 		}
-		if (work_eat(p))
+		if (work_eat(p, left, right))
 		{
-			pthread_mutex_unlock(&p->data->forks[left]);
-			pthread_mutex_unlock(&p->data->forks[right]);
+			// pthread_mutex_unlock(&p->data->forks[left]);
+			// pthread_mutex_unlock(&p->data->forks[right]);
 			return (NULL);
 		}
-		pthread_mutex_unlock(&p->data->forks[left]);
-		pthread_mutex_unlock(&p->data->forks[right]);
+		// pthread_mutex_unlock(&p->data->forks[left]);
+		// pthread_mutex_unlock(&p->data->forks[right]);
 		if (work_sleep(p))
 			return (NULL);
 		work_thinking(p);
@@ -125,7 +138,7 @@ int	main(int ac, char *av[])
 		i = 0;
 		while (i < data.nbr_of_philo)
 		{
-			philos[i].id = i;
+			philos[i].id = i + 1;
 			if(ac == 6)
 				philos[i].nbr_to_eat = ft_atoi(av[5]);
 			else
