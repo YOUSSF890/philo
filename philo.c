@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:01:53 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/06/30 19:49:59 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:12:43 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ int	ft_usleep(t_philo *p)
 {
 	long	start;
 
-	if (p->data->some_one_is_deid != 0)
-	{
-		if(p->data->some_one_is_deid == 1)
-		{
-			p->data->some_one_is_deid = 2;
-			printf("tim = %ld X = %d died\n", ft_tim_dil(), p->id);
-		}
-		return (1);
-	}
+	// if (p->data->some_one_is_deid != 0)
+	// {
+	// 	if(p->data->some_one_is_deid == 1)
+	// 	{
+	// 		p->data->some_one_is_deid = 2;
+	// 		printf("tim = %ld X = %d died\n", ft_tim_dil(), p->id);
+	// 	}
+	// 	return (1);
+	// }
 	start = ft_tim_dil();
 	while (ft_tim_dil() - start <= p->data->time_to_sleep)
 	{
@@ -66,15 +66,15 @@ void	*philosopher(void *arg)
 		usleep(500);
 	while (1)
 	{
-		if (p->data->some_one_is_deid != 0)
-		{
-			if(p->data->some_one_is_deid == 1)
-			{
-				p->data->some_one_is_deid = 2;
-				printf("tim = %ld X = %d died\n", ft_tim_dil(), p->id);
-			}
-			return (NULL);
-		}
+		// if (p->data->some_one_is_deid != 0)
+		// {
+		// 	if(p->data->some_one_is_deid == 1)
+		// 	{
+		// 		p->data->some_one_is_deid = 2;
+		// 		printf("tim = %ld X = %d died\n", ft_tim_dil(), p->id);
+		// 	}
+		// 	return (NULL);
+		// }
 		if (p->nbr_to_eat == 0)
 			break ;
 		if (p->id % 2 == 0)
@@ -127,9 +127,9 @@ int	main(int ac, char *av[])
 		{
 			philos[i].id = i;
 			if(ac == 6)
-			philos[i].nbr_to_eat = ft_atoi(av[5]);
+				philos[i].nbr_to_eat = ft_atoi(av[5]);
 			else
-			philos[i].nbr_to_eat = -1;
+				philos[i].nbr_to_eat = -1;
 			philos[i].data = &data;
 			philos[i].data->some_one_is_deid = 0;
 			pthread_create(&data.philosophers[i], NULL, philosopher, &philos[i]);
