@@ -34,12 +34,12 @@ int	work_eat(t_philo *p, int left, int right)
 
 int	work_sleep(t_philo *p)
 {
+	pthread_mutex_lock(&p->data->print);
 	if (chick_deid(p))
 		return (1);
-	pthread_mutex_lock(&p->data->print);
 	printf("%ld %d is sleeping\n", ft_tim_dil() - p->one_tim, p->id);
 	pthread_mutex_unlock(&p->data->print);
-	if (ft_usleep(p, p->data->time_to_eat))
+	if (ft_usleep(p, p->data->time_to_sleep))
 		return (1);
 	// if (chick_deid(p))
 	// 	return (1);

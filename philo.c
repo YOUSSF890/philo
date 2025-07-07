@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:01:53 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/07 14:49:59 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/07 17:00:48 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ long ft_tim_dil()
 
 int chick_deid(t_philo *p)
 {
-if (ft_tim_dil() - p->last_eat >= p->data->time_to_diel && p->last_eat != 0)
+	if (ft_tim_dil() - p->last_eat >= p->data->time_to_diel && p->last_eat != 0)
 	{
 		if (p->data->some_one_is_deid == 0)
 		{
@@ -53,7 +53,7 @@ if (ft_tim_dil() - p->last_eat >= p->data->time_to_diel && p->last_eat != 0)
 		if (p->data->some_one_is_deid == 1)
 		{
 			p->data->some_one_is_deid = 2;
-			printf("%ld %d died\n",ft_tim_dil() - p->one_tim, p->id);
+			printf("%ld %d died------------------\n",ft_tim_dil() - p->one_tim, p->id);
 		}
 		return (1);
 	}
@@ -75,8 +75,8 @@ void	*philosopher(void *arg)
 	if (right > p->data->nbr_of_philo)
 		right = 1;
 	p->one_tim = ft_tim_dil();
-	if (p->id % 2 == 0)
-		usleep(100 * p->data->nbr_of_philo / 2);
+	if (p->id % 2 != 0)
+		usleep(500);
 	while (1)
 	{
 		if (p->nbr_to_eat == 0)
