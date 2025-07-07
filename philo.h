@@ -32,12 +32,12 @@ typedef struct s_philo
 }				t_philo;
 
 long	ft_tim_dil();
-int chick_deid(t_philo *p);
-int		ft_usleep(t_philo *p);
+int		chick_deid(t_philo *p);
+int	ft_usleep(t_philo *p, int time);
 int		ft_atoi(const char *str); 
 int		ft_check_argement(char **input, t_data *data, int ac);
-int	work_fork(t_philo	*p, int left, int right);
-void	work_thinking(t_philo *p);
+int		work_fork(t_philo	*p, int left, int right);
+int		work_thinking(t_philo *p);
 int		work_sleep(t_philo *p);
 int		work_eat(t_philo *p, int left, int right);
 

@@ -6,40 +6,26 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:01:53 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/01 23:48:39 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/07 14:49:59 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_usleep(t_philo *p)
+int	ft_usleep(t_philo *p, int time)
 {
 	long	start;
 
 	start = ft_tim_dil();
-	while (ft_tim_dil() - start <= p->data->time_to_sleep)
+	// 1001 - 1000 < 60
+	while (ft_tim_dil() - start <= time)
 	{
-		// if (chick_deid(p))
-		// 	return (1);
-		usleep(100);
+		if (chick_deid(p))
+			return (1);
+		usleep(200);
 	}
 	return (0);
 }
-
-// void ft_ft_printf()
-// {
-// 	if (p->data->some_one_is_deid != 0)
-// 	{
-// 		if(p->data->some_one_is_deid == 1)
-// 		{
-// 			p->data->some_one_is_deid = 2;
-// 			printf("timestamp_in_ms X died\n");
-// 		}
-// 		pthread_mutex_unlock(&p->data->print);
-// 		return (1);
-// 	}
-// 	printf("%ld X died\n", ft_tim_dil());
-// }
 
 long ft_tim_dil()
 {
@@ -51,7 +37,7 @@ long ft_tim_dil()
 
 int chick_deid(t_philo *p)
 {
-	if (ft_tim_dil() - p->last_eat >= p->data->time_to_diel)
+if (ft_tim_dil() - p->last_eat >= p->data->time_to_diel && p->last_eat != 0)
 	{
 		if (p->data->some_one_is_deid == 0)
 		{
@@ -66,9 +52,8 @@ int chick_deid(t_philo *p)
 	{
 		if (p->data->some_one_is_deid == 1)
 		{
-			
 			p->data->some_one_is_deid = 2;
-			printf("tim = %ld X = %d died\n",p->last_eat, p->id);
+			printf("%ld %d died\n",ft_tim_dil() - p->one_tim, p->id);
 		}
 		return (1);
 	}
@@ -79,15 +64,21 @@ void	*philosopher(void *arg)
 {
 	t_philo	*p = (t_philo *)arg;
 	int left = p->id;
-	int right = (p->id + 1) % p->data->nbr_of_philo;
+	if (p->data->nbr_of_philo == 1)
+	{
+		printf("%d %d has taken a fork %d\n", p->data->time_to_diel, p->id, left);
+		usleep(p->data->time_to_diel);
+		return (NULL);
+		
+	}
+	int right = p->id + 1;
+	if (right > p->data->nbr_of_philo)
+		right = 1;
 	p->one_tim = ft_tim_dil();
-	if (p->id % 2 != 0)
-		usleep(500);
+	if (p->id % 2 == 0)
+		usleep(100 * p->data->nbr_of_philo / 2);
 	while (1)
 	{
-		// if (chick_deid(p))
-		// 	return (NULL);
-		
 		if (p->nbr_to_eat == 0)
 			break ;
 		if (p->id % 2 == 0)
@@ -102,15 +93,14 @@ void	*philosopher(void *arg)
 		}
 		if (work_eat(p, left, right))
 		{
-			// pthread_mutex_unlock(&p->data->forks[left]);
-			// pthread_mutex_unlock(&p->data->forks[right]);
+			pthread_mutex_unlock(&p->data->forks[left]);
+			pthread_mutex_unlock(&p->data->forks[right]);
 			return (NULL);
 		}
-		// pthread_mutex_unlock(&p->data->forks[left]);
-		// pthread_mutex_unlock(&p->data->forks[right]);
 		if (work_sleep(p))
 			return (NULL);
-		work_thinking(p);
+		if (work_thinking(p))
+			return (NULL);
 		if (p->nbr_to_eat != -1)
 			p->nbr_to_eat--;
 	}
@@ -125,8 +115,8 @@ int	main(int ac, char *av[])
 	i = 0;
 	if(!ft_check_argement(av, &data, ac))
 	{
-		t_philo	philos[*av[2]];
-    	pthread_mutex_init(&data.print, NULL);
+		pthread_mutex_init(&data.print, NULL);
+		t_philo	*philos = malloc(sizeof(t_philo) * data.nbr_of_philo);
 		data.forks = malloc(sizeof(pthread_mutex_t) * data.nbr_of_philo);
 		data.philosophers = malloc(sizeof(pthread_t) * data.nbr_of_philo);
 		data.some_one_is_deid = 0;
@@ -144,7 +134,7 @@ int	main(int ac, char *av[])
 			else
 				philos[i].nbr_to_eat = -1;
 			philos[i].data = &data;
-			philos[i].data->some_one_is_deid = 0;
+			philos[i].last_eat = 0;
 			pthread_create(&data.philosophers[i], NULL, philosopher, &philos[i]);
 			i++;
 		}
