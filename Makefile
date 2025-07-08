@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall #-fsanitize=address -g #-Wextra -Werror
+CFLAGS = -Wall -fsanitize=address -g #-Wextra -Werror
 NAME = philo
 HEADER = philo.h
 

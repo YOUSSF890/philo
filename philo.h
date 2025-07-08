@@ -25,10 +25,6 @@ typedef struct s_philo
 	t_data	*data;
 	long	last_eat;
 	long	one_tim;
-
-	// __
-	// pthread_mutex_t	fork;
-	// struct s_philo	*next;
 }				t_philo;
 
 long	ft_tim_dil();

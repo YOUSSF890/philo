@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:01:53 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/07 17:00:48 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/08 11:25:20 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,26 +75,18 @@ void	*philosopher(void *arg)
 	if (right > p->data->nbr_of_philo)
 		right = 1;
 	p->one_tim = ft_tim_dil();
-	if (p->id % 2 != 0)
+	if (p->id % 2 == 0)
 		usleep(500);
 	while (1)
 	{
 		if (p->nbr_to_eat == 0)
 			break ;
-		if (p->id % 2 == 0)
-		{
-			if(work_fork(p, left, right))
-				return (NULL);
-		}
-		else
-		{
-			if(work_fork(p, left, right))
-				return (NULL);
-		}
+		if (work_fork(p, left, right))
+			return (NULL);
 		if (work_eat(p, left, right))
 		{
-			pthread_mutex_unlock(&p->data->forks[left]);
 			pthread_mutex_unlock(&p->data->forks[right]);
+			pthread_mutex_unlock(&p->data->forks[left]);
 			return (NULL);
 		}
 		if (work_sleep(p))
