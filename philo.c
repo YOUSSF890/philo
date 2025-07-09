@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:01:53 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/08 11:59:35 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:28:02 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	*philosopher(void *arg)
 		return (NULL);
 		
 	}
-	int right = p->id + 1;
-	if (right > p->data->nbr_of_philo)
-		right = 1;
+	int right = (p->id + 1) % p->data->nbr_of_philo;
+	// if (right > p->data->nbr_of_philo)
+	// 	right = 1;
 	p->one_tim = ft_tim_dil();
 	if (p->id % 2 != 0)
 		usleep(500);
@@ -120,7 +120,7 @@ int	main(int ac, char *av[])
 		i = 0;
 		while (i < data.nbr_of_philo)
 		{
-			philos[i].id = i + 1;
+			philos[i].id = i;
 			if(ac == 6)
 				philos[i].nbr_to_eat = ft_atoi(av[5]);
 			else
