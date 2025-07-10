@@ -2,17 +2,20 @@
 # define PHILO_H
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
 #include <sys/time.h>
 
 typedef struct s_data {
-	int				nbr_of_philo;
-	int				time_to_diel;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				some_one_is_deid; // 1
+	long				nbr_of_philo;
+	long				time_to_diel;
+	long				time_to_eat;
+	long				time_to_sleep;
+	long	one_tim;
+	// long	last_eat;
+	long				some_one_is_deid; // 1
 	pthread_mutex_t	print;
 	pthread_mutex_t	*forks;
 	pthread_t		*philosophers;
@@ -24,7 +27,7 @@ typedef struct s_philo
 	int		nbr_to_eat;
 	t_data	*data;
 	long	last_eat;
-	long	one_tim;
+	// long	one_tim;
 }				t_philo;
 
 long	ft_tim_dil();
@@ -36,5 +39,6 @@ int		work_fork(t_philo	*p, int left, int right);
 int		work_thinking(t_philo *p);
 int		work_sleep(t_philo *p);
 int		work_eat(t_philo *p, int left, int right);
+void printf_status(char *str, t_philo *p);
 
 #endif
