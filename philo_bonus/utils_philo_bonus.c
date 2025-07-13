@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:02:00 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/11 16:21:38 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:58:33 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void stor_data_to_philo(int j, char *input, t_data *data)
 		data->time_to_sleep = ft_atoi(input);
 }
 
-int ft_check_argement(char **input, t_data *data, int ac)
+int check_argement(char **input, t_data *data, int ac)
 {
     int i;
     int j;
