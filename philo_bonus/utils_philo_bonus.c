@@ -6,12 +6,31 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:02:00 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/13 17:58:33 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:54:34 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
+void	ft_usleep(t_data *data, int time)
+{
+	long	start;
+	start = ft_tim_dil();
+	// 1001 - 1000 < 60
+	while (ft_tim_dil() - start <= time)
+	{
+		chick_deid(data);
+		usleep(100);
+	}
+}
+
+long ft_tim_dil()
+{
+	struct timeval t;
+	gettimeofday(&t, NULL);
+	long ms = t.tv_sec * 1000 + t.tv_usec / 1000;
+	return (ms);
+}
 
 int	ft_atoi(const char *str)
 {
