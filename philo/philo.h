@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:04:30 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/14 17:18:26 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:44:50 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ int		work_thinking(t_philo *p);
 int		work_sleep(t_philo *p);
 int		work_eat(t_philo *p, int left, int right);
 void	printf_status(char *str, t_philo *p);
+int		ckick_malloc(t_philo *philos, t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:01:53 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/15 13:27:39 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:44:19 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,11 @@ void	*philosopher(void *arg)
 	return (NULL);
 }
 
-void	philo_create(t_data *data, int ac, char *av)
+void	philo_create(t_data *data, t_philo	*philos, int ac, char *av)
 {
-	int		i;
-	t_philo	*philos;
+	int	i;
 
 	i = 0;
-	philos = malloc(sizeof(t_philo) * data->nbr_of_philo);
 	while (i < data->nbr_of_philo)
 	{
 		philos[i].id = i;
@@ -102,6 +100,7 @@ void	philo_create(t_data *data, int ac, char *av)
 
 int	main(int ac, char *av[])
 {
+	t_philo	*philos;
 	t_data	data;
 	int		i;
 
@@ -111,16 +110,19 @@ int	main(int ac, char *av[])
 		pthread_mutex_init(&data.print, NULL);
 		data.forks = malloc(sizeof(pthread_mutex_t) * data.nbr_of_philo);
 		data.philosophers = malloc(sizeof(pthread_t) * data.nbr_of_philo);
+		philos = malloc(sizeof(t_philo) * data.nbr_of_philo);
+		if (ckick_malloc(philos, &data))
+			return (1);
 		data.some_one_is_deid = 0;
 		data.one_tim = ft_tim_dil();
 		while (i < data.nbr_of_philo)
 			pthread_mutex_init(&data.forks[i++], NULL);
-		philo_create(&data, ac, av[5]);
+		philo_create(&data, philos, ac, av[5]);
 		i = 0;
 		while (i < data.nbr_of_philo)
 			pthread_join(data.philosophers[i++], NULL);
 		free(data.forks);
-		free(data.philosophers);
+		return (free(data.philosophers), free(philos), 0);
 	}
 	return (0);
 }

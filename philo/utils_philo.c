@@ -6,16 +6,27 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:02:00 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/14 17:01:46 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:44:30 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int	ckick_malloc(t_philo *philos, t_data *data)
+{
+	if (!data->forks)
+		return (1);
+	if (!data->philosophers)
+		return (1);
+	if (!philos)
+		return (1);
+	return (0);
+}
+
 int	ft_atoi(const char *str)
 {
 	int		sign;
-	int		result;
+	long	result;
 	int		i;
 
 	sign = 1;
@@ -32,6 +43,8 @@ int	ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		result = result * 10 + (str[i] - '0');
+		if (result > 2147483647)
+			return (0);
 		i++;
 	}
 	return (result * sign);
