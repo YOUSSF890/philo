@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -fsanitize=address -g #-Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 NAME = philo_bonus
 HEADER = philo_bonus.h
 

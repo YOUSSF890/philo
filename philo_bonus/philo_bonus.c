@@ -6,23 +6,25 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:01:53 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/15 15:15:39 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/15 21:41:44 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void printf_status(char *str, t_data *data) {
-    sem_wait(data->print);
-    long now = ft_tim_dil() - data->one_tim;  // Recalculate after lock
-    printf("%ld %d is %s\n", now, data->id, str);
-    if (!strcmp(str, "eating")) 
-        data->last_eat = ft_tim_dil();
-    sem_post(data->print);
+void	printf_status(char *str, t_data *data)
+{
+	long	now;
+
+	sem_wait(data->print);
+	now = ft_tim_dil() - data->one_tim;
+	printf("%ld %d is %s\n", now, data->id, str);
+	if (!strcmp(str, "eating"))
+		data->last_eat = ft_tim_dil();
+	sem_post(data->print);
 }
 
-
-void philosopher_action(t_data *data)
+void	philosopher_action(t_data *data)
 {
 	if (data->nbr_of_philo == 1)
 	{
@@ -30,11 +32,8 @@ void philosopher_action(t_data *data)
 		usleep(data->time_to_diel);
 		exit(0);
 	}
-	int i;
-	i = 0;
 	if (data->id % 2 != 0)
-    	usleep(500);
-	
+		usleep(500);
 	while (1)
 	{
 		if (data->nbr_to_eat == 0)
@@ -46,46 +45,53 @@ void philosopher_action(t_data *data)
 		if (data->nbr_to_eat != -1)
 			data->nbr_to_eat--;
 	}
-}
-
-void    monitor_process(t_data *data)
-{
-	int i;
-	
-	i = 0;
 	while(1)
 	{
-		sem_wait(data->died);
-		printf("died---------------------\n");
-		while(i < data->nbr_of_philo)
+		data->nbr_of_philo--;
+		if (data->nbr_of_philo == 0)
 		{
-			kill(data->philo_pids[i], SIGKILL);
-			i++;
+			sem_post(data->died);
+			break ;
 		}
-		exit(0);
-		sem_post(data->died);
 	}
 }
 
-void philo_create(t_data *data, int ac, char *str)
+void	monitor_process(t_data *data)
 {
-	int		i;
+	int	i;
+
+	i = 0;
+	while(i < data->nbr_of_philo)
+	{
+		sem_wait(data->died);
+		i++;
+	}
+	i = 0;
+	while (i < data->nbr_of_philo)
+	{
+		kill(data->philo_pids[i], SIGKILL);
+		i++;
+	}
+	exit(0);
+	sem_post(data->died);
+}
+
+void	philo_create(t_data *data, int ac, char *str)
+{
+	int	i;
 
 	i = 0;
 	data->philo_pids = malloc(sizeof(int) * data->nbr_of_philo);
-	// data->one_tim = ft_tim_dil();
 	while (i < data->nbr_of_philo)
 	{
 		data->id = i;
-		if(ac == 6)
+		if (ac == 6)
 			data->nbr_to_eat = ft_atoi(str);
 		else
 			data->nbr_to_eat = -1;
 		data->last_eat = 0;
 		data->one_tim = ft_tim_dil();
-		printf("---------1--->%ld\n",ft_tim_dil());
 		data->philo_pids[i] = fork();
-		printf("------2------>%ld\n",ft_tim_dil());
 		if (data->philo_pids[i] == 0)
 		{
 			philosopher_action(data);
@@ -95,31 +101,36 @@ void philo_create(t_data *data, int ac, char *str)
 	}
 	if (fork() == 0)
 		monitor_process(data);
-
+	free(data->philo_pids);
 }
 
-int main(int ac, char *av[])
+int	main(int ac, char *av[])
 {
-	t_data *data;
-	// int status;
-	int	n;
+	t_data	*data;
 
-	n = 1;
-	data = malloc(sizeof(t_data ) * ft_atoi(av[1]));
-	if (!check_argement(av, data, ac))
+	if (ac > 1)
 	{
-		sem_unlink("/forks");
-		sem_unlink("/print");
-		sem_unlink("/died");
-		// sem_destroy(data->forks);
-		// sem_destroy(data->print);
-		// sem_destroy(data->died);
-		data->forks = sem_open("/forks", O_CREAT | O_RDWR, 0644, data->nbr_of_philo);
-		data->print = sem_open("/print", O_CREAT | O_RDWR, 0644, 1);
-		data->died = sem_open("/died", O_CREAT | O_RDWR, 0644, 0);
-		philo_create(data , ac , av[5]);
-		while (waitpid(-1, NULL, 0) > 0)
-			;
+		data = malloc(sizeof(t_data) * ft_atoi(av[1]));
+		if (!check_argement(av, data, ac))
+		{
+			sem_unlink("/forks");
+			sem_unlink("/print");
+			sem_unlink("/died");
+			sem_unlink("/printf_died");
+			sem_unlink("/not_died");
+			// sem_destroy(data->forks);
+			// sem_destroy(data->print);
+			// sem_destroy(data->died);
+			data->forks = sem_open("/forks", O_CREAT | O_RDWR,
+					0644, data->nbr_of_philo);
+			data->print = sem_open("/print", O_CREAT | O_RDWR, 0644, 1);
+			data->died = sem_open("/died", O_CREAT | O_RDWR, 0644, 0);
+			data->not_died = sem_open("/not_died", O_CREAT | O_RDWR, 0644, 0);
+			philo_create(data, ac, av[5]);
+			while (waitpid(-1, NULL, 0) > 0)
+				;
+		}
+		free(data);
 	}
 	return (0);
 }
