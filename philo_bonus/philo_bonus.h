@@ -18,30 +18,22 @@
 #include <unistd.h>
 
 typedef struct s_data {
-	long				nbr_of_philo;
-	long				time_to_diel;
-	long				time_to_eat;
-	long				time_to_sleep;
+	long	nbr_of_philo;
+	long	time_to_diel;
+	long	time_to_eat;
+	long	time_to_sleep;
 	long	one_tim;
-	// long	last_eat;
-	long				some_one_is_deid; // 1
+	long	some_one_is_deid;
 	sem_t	*print;
 	sem_t	*forks;
 	int		*philo_pids;
-	pthread_t		*philosophers;
 	long	last_eat;
 	int		nbr_to_eat;
 	int		id;
+	sem_t	*died;
+	sem_t	*wait;
 }				t_data;
 
-// typedef struct s_philo
-// {
-// 	int		id;
-// 	int		nbr_to_eat;
-// 	t_data	*data;
-// 	long	last_eat;
-// 	// long	one_tim;
-// }				t_philo;
 
 int		ft_atoi(const char *str); 
 int		check_argement(char **input, t_data *data, int ac);

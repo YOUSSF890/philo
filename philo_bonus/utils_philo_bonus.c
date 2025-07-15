@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:02:00 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/14 14:54:34 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:36:53 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@ void	ft_usleep(t_data *data, int time)
 	}
 }
 
-long ft_tim_dil()
-{
-	struct timeval t;
-	gettimeofday(&t, NULL);
-	long ms = t.tv_sec * 1000 + t.tv_usec / 1000;
-	return (ms);
+long ft_tim_dil() {
+    struct timeval t;
+    gettimeofday(&t, NULL);
+    return t.tv_sec * 1000 + t.tv_usec / 1000;
 }
 
 int	ft_atoi(const char *str)

@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:34 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/14 17:17:44 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:25:19 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_usleep(t_philo *p, int time)
 	{
 		if (chick_deid(p))
 			return (1);
-		usleep(100);
+		usleep(1000);
 	}
 	return (0);
 }
