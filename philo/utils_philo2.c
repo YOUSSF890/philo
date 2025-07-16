@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:12:34 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/15 13:25:19 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:03:28 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_usleep(t_philo *p, int time)
 	start = ft_tim_dil();
 	while (ft_tim_dil() - start <= time)
 	{
-		if (chick_deid(p))
+		if (check_died(p))
 			return (1);
 		usleep(1000);
 	}
@@ -39,9 +39,9 @@ long	ft_tim_dil(void)
 void	printf_status(char *str, t_philo *p)
 {
 	pthread_mutex_lock(&p->data->print);
-	if (!chick_deid(p) && p->data->some_one_is_deid != 2)
+	if (!check_died(p) && p->data->some_one_is_died != 2)
 		printf("%ld %d is %s\n",
-			ft_tim_dil() - p->data->one_tim, p->id, str);
+			ft_tim_dil() - p->data->one_tim, p->id + 1, str);
 	if (!strcmp(str, "eating"))
 		p->last_eat = ft_tim_dil();
 	pthread_mutex_unlock(&p->data->print);

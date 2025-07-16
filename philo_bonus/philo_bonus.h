@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 16:27:33 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/15 20:18:07 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:03:35 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_data
 	long	time_to_eat;
 	long	time_to_sleep;
 	long	one_tim;
-	long	some_one_is_deid;
+	long	some_one_is_died;
 	sem_t	*print;
 	sem_t	*forks;
 	int		*philo_pids;
@@ -46,7 +46,7 @@ void	philo_fork(t_data *data);
 void	philo_eating(t_data *data);
 void	philo_sleeping(t_data *data);
 void	philo_thinking(t_data *data);
-void	chick_deid(t_data *data);
+void	check_died(t_data *data);
 void	ft_usleep(t_data *data, int time);
 long	ft_tim_dil(void);
 void	printf_status(char *str, t_data *data);

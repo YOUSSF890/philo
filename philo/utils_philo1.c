@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:00:16 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/15 13:24:32 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:03:08 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	work_fork(t_philo *p, int left, int right)
 {
 	pthread_mutex_lock(&p->data->forks[right]);
 	pthread_mutex_lock(&p->data->forks[left]);
-	if (chick_deid(p))
+	if (check_died(p))
 	{
 		pthread_mutex_unlock(&p->data->forks[right]);
 		pthread_mutex_unlock(&p->data->forks[left]);
@@ -30,7 +30,7 @@ int	work_fork(t_philo *p, int left, int right)
 int	work_eat(t_philo *p, int left, int right)
 {
 	printf_status("eating", p);
-	if (chick_deid(p))
+	if (check_died(p))
 		return (1);
 	if (ft_usleep(p, p->data->time_to_eat))
 	{
@@ -45,7 +45,7 @@ int	work_eat(t_philo *p, int left, int right)
 
 int	work_sleep(t_philo *p)
 {
-	if (chick_deid(p))
+	if (check_died(p))
 		return (1);
 	printf_status("sleeping", p);
 	if (ft_usleep(p, p->data->time_to_sleep))
@@ -55,7 +55,7 @@ int	work_sleep(t_philo *p)
 
 int	work_thinking(t_philo *p)
 {
-	if (chick_deid(p))
+	if (check_died(p))
 		return (1);
 	printf_status("thinking", p);
 	return (0);

@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 NAME = philo_bonus
 HEADER = philo_bonus.h
 
-SRC = philo_bonus.c utils_philo_bonus.c utils_philo2_bonus.c \
+SRC = philo_bonus.c utils_philo_bonus.c utils_philo2_bonus.c utils_philo3_bonus.c \
 
 OBJ = $(SRC:%.c=%.o)
 

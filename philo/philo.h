@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:04:30 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/15 17:44:50 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:03:17 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			one_tim;
-	long			some_one_is_deid;
+	long			some_one_is_died;
 	pthread_mutex_t	print;
 	pthread_mutex_t	*forks;
 	pthread_t		*philosophers;
@@ -42,7 +42,7 @@ typedef struct s_philo
 }			t_philo;
 
 long	ft_tim_dil(void);
-int		chick_deid(t_philo *p);
+int		check_died(t_philo *p);
 int		ft_usleep(t_philo *p, int time);
 int		ft_atoi(const char *str);
 int		ft_check_argement(char **input, t_data *data, int ac);

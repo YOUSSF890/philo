@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:02:00 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/16 08:22:50 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 10:03:40 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_usleep(t_data *data, int time)
 	start = ft_tim_dil();
 	while (ft_tim_dil() - start <= time)
 	{
-		chick_deid(data);
+		check_died(data);
 		usleep(100);
 	}
 }
