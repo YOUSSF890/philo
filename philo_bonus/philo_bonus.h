@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 16:27:33 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/16 10:03:35 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:12:11 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_data
 	int		nbr_to_eat;
 	int		id;
 	sem_t	*died;
-	sem_t	*not_died;
 	sem_t	*wait;
 }				t_data;
 
@@ -51,5 +50,6 @@ void	ft_usleep(t_data *data, int time);
 long	ft_tim_dil(void);
 void	printf_status(char *str, t_data *data);
 void	monitor_process(t_data *data);
+void	ft_unlink_close(t_data	*data);
 
 #endif

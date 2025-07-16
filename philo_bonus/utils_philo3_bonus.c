@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 10:07:49 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/16 10:07:54 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:12:48 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,14 @@ void	printf_status(char *str, t_data *data)
 	if (!strcmp(str, "eating"))
 		data->last_eat = ft_tim_dil();
 	sem_post(data->print);
+}
+
+void	ft_unlink_close(t_data	*data)
+{
+	sem_close(data->forks);
+	sem_close(data->print);
+	sem_close(data->died);
+	sem_unlink("/forks");
+	sem_unlink("/print");
+	sem_unlink("/died");
 }

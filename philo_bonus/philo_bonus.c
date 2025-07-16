@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:01:53 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/16 10:08:50 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:11:53 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,11 @@ int	main(int ac, char *av[])
 		data = malloc(sizeof(t_data) * ft_atoi(av[1]));
 		if (!check_argement(av, data, ac))
 		{
-			sem_unlink("/forks");
-			sem_unlink("/print");
-			sem_unlink("/died");
-			sem_unlink("/printf_died");
-			sem_unlink("/not_died");
-			// sem_destroy(data->forks);
-			// sem_destroy(data->print);
-			// sem_destroy(data->died);
+			ft_unlink_close(data);
 			data->forks = sem_open("/forks", O_CREAT | O_RDWR,
 					0644, data->nbr_of_philo);
 			data->print = sem_open("/print", O_CREAT | O_RDWR, 0644, 1);
 			data->died = sem_open("/died", O_CREAT | O_RDWR, 0644, 0);
-			data->not_died = sem_open("/not_died", O_CREAT | O_RDWR, 0644, 0);
 			philo_create(data, ac, av[5]);
 			while (waitpid(-1, NULL, 0) > 0)
 				;

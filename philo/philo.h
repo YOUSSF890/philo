@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:04:30 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/16 10:03:17 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:26:54 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,12 @@ int		check_died(t_philo *p);
 int		ft_usleep(t_philo *p, int time);
 int		ft_atoi(const char *str);
 int		ft_check_argement(char **input, t_data *data, int ac);
-int		work_fork(t_philo	*p, int left, int right);
-int		work_thinking(t_philo *p);
-int		work_sleep(t_philo *p);
-int		work_eat(t_philo *p, int left, int right);
+int		philo_fork(t_philo	*p, int left, int right);
+int		philo_thinking(t_philo *p);
+int		philo_sleep(t_philo *p);
+int		philo_eat(t_philo *p, int left, int right);
 void	printf_status(char *str, t_philo *p);
 int		ckick_malloc(t_philo *philos, t_data *data);
+void	ft_free_destroy(t_data	*data);
 
 #endif

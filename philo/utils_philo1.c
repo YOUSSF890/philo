@@ -6,13 +6,13 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:00:16 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/16 10:03:08 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:35:54 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	work_fork(t_philo *p, int left, int right)
+int	philo_fork(t_philo *p, int left, int right)
 {
 	pthread_mutex_lock(&p->data->forks[right]);
 	pthread_mutex_lock(&p->data->forks[left]);
@@ -27,7 +27,7 @@ int	work_fork(t_philo *p, int left, int right)
 	return (0);
 }
 
-int	work_eat(t_philo *p, int left, int right)
+int	philo_eat(t_philo *p, int left, int right)
 {
 	printf_status("eating", p);
 	if (check_died(p))
@@ -43,7 +43,7 @@ int	work_eat(t_philo *p, int left, int right)
 	return (0);
 }
 
-int	work_sleep(t_philo *p)
+int	philo_sleep(t_philo *p)
 {
 	if (check_died(p))
 		return (1);
@@ -53,10 +53,25 @@ int	work_sleep(t_philo *p)
 	return (0);
 }
 
-int	work_thinking(t_philo *p)
+int	philo_thinking(t_philo *p)
 {
 	if (check_died(p))
 		return (1);
 	printf_status("thinking", p);
 	return (0);
+}
+
+void	ft_free_destroy(t_data	*data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nbr_of_philo)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&data->print);
+	free(data->forks);
+	free(data->philosophers);
 }

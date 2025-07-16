@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:01:53 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/16 10:02:58 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 20:36:08 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,17 @@ void	work_philo(t_philo	*p, int left, int right)
 	{
 		if (p->nbr_to_eat == 0)
 			break ;
-		if (work_fork(p, left, right))
+		if (philo_fork(p, left, right))
 			break ;
-		if (work_eat(p, left, right))
+		if (philo_eat(p, left, right))
 		{
 			pthread_mutex_unlock(&p->data->forks[right]);
 			pthread_mutex_unlock(&p->data->forks[left]);
 			break ;
 		}
-		if (work_sleep(p))
+		if (philo_sleep(p))
 			break ;
-		if (work_thinking(p))
+		if (philo_thinking(p))
 			break ;
 		if (p->nbr_to_eat != -1)
 			p->nbr_to_eat--;
@@ -123,8 +123,8 @@ int	main(int ac, char *av[])
 		i = 0;
 		while (i < data.nbr_of_philo)
 			pthread_join(data.philosophers[i++], NULL);
-		free(data.forks);
-		return (free(data.philosophers), free(philos), 0);
+		ft_free_destroy(&data);
+		return (free(philos), 0);
 	}
 	return (0);
 }
