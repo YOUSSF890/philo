@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:02:00 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/15 16:23:17 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 08:22:50 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,15 @@ int	check_argement(char **input, t_data *data, int ac)
 			while (input[j][i])
 			{
 				if (input[j][i] > 57 || input[j][i] < 48)
-					return (printf("eroor parsin\n"), 1);
+					return (write(2, "invalid argument\n", 17), 1);
 				i++;
 			}
 			if (ft_atoi(input[j]) == 0)
-				return (printf("eroor argemint in 0\n"), 1);
+				return (write(2, "error argument in 0\n", 20), 1);
 			stor_data_to_philo(j, input[j], data);
 			j++;
 		}
 		return (0);
 	}
-	return (printf("eroor parsin in argemint\n"), 1);
+	return (write(2, "should be 5 or 6 arguments\n", 27), 1);
 }

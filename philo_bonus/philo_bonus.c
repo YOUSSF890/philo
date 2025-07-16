@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:01:53 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/15 21:41:44 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:28:02 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	printf_status(char *str, t_data *data)
 
 	sem_wait(data->print);
 	now = ft_tim_dil() - data->one_tim;
-	printf("%ld %d is %s\n", now, data->id, str);
+	printf("%ld %d is %s\n", now, data->id + 1, str);
 	if (!strcmp(str, "eating"))
 		data->last_eat = ft_tim_dil();
 	sem_post(data->print);
@@ -28,22 +28,25 @@ void	philosopher_action(t_data *data)
 {
 	if (data->nbr_of_philo == 1)
 	{
-		printf("%ld %d has taken a fork\n", data->time_to_diel, data->id);
-		usleep(data->time_to_diel);
-		exit(0);
+		printf("%ld %d has taken a fork\n", ft_tim_dil() - data->one_tim, data->id + 1);
+		usleep(data->time_to_diel * 1000);
+		printf("%ld %d died\n",ft_tim_dil() - data->one_tim, data->id + 1);
 	}
-	if (data->id % 2 != 0)
-		usleep(500);
-	while (1)
+	else
 	{
-		if (data->nbr_to_eat == 0)
-			break ;
-		philo_fork(data);
-		philo_eating(data);
-		philo_sleeping(data);
-		philo_thinking(data);
-		if (data->nbr_to_eat != -1)
-			data->nbr_to_eat--;
+		if (data->id % 2 != 0)
+			usleep(500);
+		while (1)
+		{
+			if (data->nbr_to_eat == 0)
+				break ;
+			philo_fork(data);
+			philo_eating(data);
+			philo_sleeping(data);
+			philo_thinking(data);
+			if (data->nbr_to_eat != -1)
+				data->nbr_to_eat--;
+		}
 	}
 	while(1)
 	{
@@ -82,6 +85,7 @@ void	philo_create(t_data *data, int ac, char *str)
 
 	i = 0;
 	data->philo_pids = malloc(sizeof(int) * data->nbr_of_philo);
+	data->one_tim = ft_tim_dil();
 	while (i < data->nbr_of_philo)
 	{
 		data->id = i;
@@ -90,7 +94,7 @@ void	philo_create(t_data *data, int ac, char *str)
 		else
 			data->nbr_to_eat = -1;
 		data->last_eat = 0;
-		data->one_tim = ft_tim_dil();
+		// data->one_tim = ft_tim_dil();
 		data->philo_pids[i] = fork();
 		if (data->philo_pids[i] == 0)
 		{

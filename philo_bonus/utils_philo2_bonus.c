@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 16:25:06 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/15 21:48:58 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:46:17 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ void	chick_deid(t_data *data)
 		sem_post(data->forks);
 		sem_post(data->forks);
 		sem_wait(data->print);
-		printf("%ld %d is died\n", ft_tim_dil() - data->one_tim, data->id);
+		printf("%ld %d is died\n", ft_tim_dil() - data->one_tim, data->id + 1);
 		i = 0;
 		while(i < data->nbr_of_philo)
 		{
 			sem_post(data->died);
 			i++;
 		}
-		exit(1);
+		exit(0);
 	}
 }
 
