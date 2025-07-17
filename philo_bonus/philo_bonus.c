@@ -6,7 +6,7 @@
 /*   By: ylagzoul <ylagzoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:01:53 by ylagzoul          #+#    #+#             */
-/*   Updated: 2025/07/16 20:11:53 by ylagzoul         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:59:59 by ylagzoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	philo_create(t_data *data, int ac, char *str)
 
 	i = 0;
 	data->philo_pids = malloc(sizeof(int) * data->nbr_of_philo);
-	data->one_tim = ft_tim_dil();
 	while (i < data->nbr_of_philo)
 	{
 		data->id = i;
@@ -89,6 +88,8 @@ void	philo_create(t_data *data, int ac, char *str)
 			data->nbr_to_eat = -1;
 		data->last_eat = 0;
 		data->philo_pids[i] = fork();
+		// if (!data->philo_pids[i])
+		// 	break ;
 		if (data->philo_pids[i] == 0)
 		{
 			philosopher_action(data);
@@ -101,6 +102,31 @@ void	philo_create(t_data *data, int ac, char *str)
 	free(data->philo_pids);
 }
 
+int chick_sem_open(t_data	*data)
+{
+	data->forks = sem_open("/forks", O_CREAT | O_RDWR,
+			0644, data->nbr_of_philo);
+	if(!data->forks)
+		return (1);
+	data->print = sem_open("/print", O_CREAT | O_RDWR, 0644, 1);
+	if(!data->print)
+	{
+		sem_close(data->forks);
+		sem_unlink("/forks");
+		return (1);
+	}
+	data->died = sem_open("/died", O_CREAT | O_RDWR, 0644, 0);
+	if(!data->died)
+	{
+		sem_close(data->forks);
+		sem_close(data->print);
+		sem_unlink("/forks");
+		sem_unlink("/print");
+		return (1);
+	}
+	return (0);
+}
+
 int	main(int ac, char *av[])
 {
 	t_data	*data;
@@ -108,13 +134,14 @@ int	main(int ac, char *av[])
 	if (ac > 1)
 	{
 		data = malloc(sizeof(t_data) * ft_atoi(av[1]));
+		if(!data)
+			return (write(2, "malloc fails\n", 13), 1);
 		if (!check_argement(av, data, ac))
 		{
 			ft_unlink_close(data);
-			data->forks = sem_open("/forks", O_CREAT | O_RDWR,
-					0644, data->nbr_of_philo);
-			data->print = sem_open("/print", O_CREAT | O_RDWR, 0644, 1);
-			data->died = sem_open("/died", O_CREAT | O_RDWR, 0644, 0);
+			if (chick_sem_open(data))
+				return (write(2, "sem_open fails\n", 13), 1);
+			data->one_tim = ft_tim_dil();
 			philo_create(data, ac, av[5]);
 			while (waitpid(-1, NULL, 0) > 0)
 				;
